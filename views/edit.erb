@@ -1,0 +1,7 @@
+<section class="center-vertical">
+  <h1>コメントの更新</h1>
+  <form action="/post/<%= @post.id %>/edit" method="post" class="signin-form" enctype="multipart/form-data">
+    <input name="comment" value="<%= @post.comment %>">
+    <input type="submit" value="更新">
+  </form>
+</section>

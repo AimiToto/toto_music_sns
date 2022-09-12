@@ -1,0 +1,43 @@
+<section class="first-view center-vertical">
+	<h1>MUSIC SNS!!!</h1>
+	<% if current_user.nil? %>
+	  <form action="/signin" method="post" class="signin-form">
+        <input type="text" name="name" placeholder="ユーザー名">
+        <input type="password" name="password" placeholder="パスワード">
+        <input type="submit" value="Sign in">
+      </form>
+    <% end %>
+</section>
+
+<section class="center-vertical">
+	<h1>最新の投稿</h1>
+	<% if @posts.count >= 1 %>
+	  <% @posts.each do |post| %>
+	  <div class="post center-vertical">
+		<img src="<%= post.image %>" width="125" height="125">
+		<p>アーティスト：<%= post.artist %></p>
+		<p>アルバム：<%= post.album %></p>
+		<p>曲名：<%= post.song %></p>
+		<p><a href="<%= post.sample %>">サンプル</a></p>
+		<p>コメント：<%= post.comment %></p>
+		<p>投稿者: <%= User.find(post.user_id).name %></p>
+		<p>いいねしたユーザー</p>
+		<div class="user-box">
+		<% Like.where(post_id: post.id).each do |like| %>
+		<img src="<%= User.find(like.user_id).image %>" alt="user_image" width="40" height="40">
+		<% end %>
+		</div>
+		
+		<% if !current_user.nil? %>
+		<% if Like.find_by(user_id: current_user.id, post_id: post.id) %>
+		  <a href="/post/<%= post.id %>/favorite/delete">いいね解除</a>
+		<% else %>
+		  <a href="/post/<%= post.id %>/favorite">いいねする</a>
+		<% end %>
+		<% end %>
+	  </div>
+	  <% end %>
+	<% else %>
+	  <p>投稿がありません</p>
+	<% end %>
+</section>

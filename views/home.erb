@@ -1,0 +1,51 @@
+<section class="center-vertical">
+	<h1><%= current_user.name %>の投稿</h1>
+	<% if @posts.count >= 1 %>
+	  <% @posts.each do |post| %>
+	  <div class="post center-vertical">
+		<img src="<%= post.image %>" width="125" height="125">
+		<p>アーティスト：<%= post.artist %></p>
+		<p>アルバム：<%= post.album %></p>
+		<p>曲名：<%= post.song %></p>
+		<p><a href="<%= post.sample %>">サンプル</a></p>
+		<p>コメント：<%= post.comment %></p>
+		<p>投稿者: <%= User.find(post.user_id).name %></p>
+		<p>いいねしたユーザー</p>
+		<div class="user-box">
+		<% Like.where(post_id: post.id).each do |like| %>
+		<img src="<%= User.find(like.user_id).image %>" alt="user_image" width="40" height="40">
+		<% end %>
+		</div>
+		<a href="/post/<%= post.id %>/delete">削除</a>
+		<a href="/post/<%= post.id %>/edit">編集</a>
+	  </div>
+	  <% end %>
+	<% else %>
+	<p>投稿がありません</p>
+	<% end %>
+</section>
+
+<section class="center-vertical">
+	<h1><%= current_user.name %>のイイねした投稿</h1>
+	<% if @liked_posts.count >= 1 %>
+	  <% @liked_posts.each do |post| %>
+	  <div class="post center-vertical">
+		<img src="<%= post.image %>" width="125" height="125">
+		<p>アーティスト：<%= post.artist %></p>
+		<p>アルバム：<%= post.album %></p>
+		<p>曲名：<%= post.song %></p>
+		<p><a href="<%= post.sample %>">サンプル</a></p>
+		<p>コメント：<%= post.comment %></p>
+		<p>投稿者: <%= User.find(post.user_id).name %></p>
+		<p>いいねしたユーザー</p>
+		<div class="user-box">
+		<% Like.where(post_id: post.id).each do |like| %>
+		<img src="<%= User.find(like.user_id).image %>" alt="user_image" width="40" height="40">
+		<% end %>
+		</div>
+	  </div>
+	  <% end %>
+	<% else %>
+	<p>イイねがありません</p>
+	<% end %>
+</section>
